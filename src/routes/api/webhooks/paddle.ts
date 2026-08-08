@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { applyOneTimePurchase } from "@/lib/firebase-admin.server";
 import {
   extractPriceIds,
   planFromTransaction,
@@ -62,6 +61,9 @@ export const Route = createFileRoute("/api/webhooks/paddle")({
         const priceId = priceIds[0] ?? null;
 
         try {
+          // Lazy-load Admin SDK so homepage SSR never pulls in firebase-admin
+          // (bundled ESM breaks __dirname on Vercel).
+          const { applyOneTimePurchase } = await import("@/lib/firebase-admin.server");
           const result = await applyOneTimePurchase({
             userId,
             plan,
