@@ -52,7 +52,7 @@ You explore the map. You stay in charge. PathWise sits beside you while you thin
 
 ```bash
 git clone https://github.com/Amaar-Ali/PathWise.git
-cd PathWise
+cd main
 npm install
 cp .env.example .env.local
 # fill in keys (see Environment below)
