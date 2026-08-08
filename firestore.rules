@@ -1,0 +1,38 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    // Access level lives here. Clients may create free profiles only.
+    // Paid plan upgrades come ONLY from the Paddle webhook (Admin SDK).
+    match /users/{userId} {
+      allow read: if isOwner(userId);
+
+      allow create: if isOwner(userId)
+        && request.resource.data.plan == 'free'
+        && (!('lastPaddleTransactionId' in request.resource.data)
+            || request.resource.data.lastPaddleTransactionId == null);
+
+      allow update: if isOwner(userId)
+        && request.resource.data.plan == resource.data.plan
+        && request.resource.data.get('lastPaddleTransactionId', null)
+            == resource.data.get('lastPaddleTransactionId', null)
+        && request.resource.data.get('lastPurchaseAt', null)
+            == resource.data.get('lastPurchaseAt', null);
+
+      allow delete: if false;
+    }
+
+    // Purchase ledger — Admin SDK only. Users may read their own rows.
+    match /purchases/{transactionId} {
+      allow read: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow write: if false;
+    }
+  }
+}

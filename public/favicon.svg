@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img">
+  <!-- Teal tile — brand accent, pops on light + dark chrome -->
+  <rect width="32" height="32" rx="7" fill="#007d5c"/>
+  <!-- Single cream silhouette (node + fork) — max 16px legibility -->
+  <circle cx="16" cy="7.5" r="4.6" fill="#F4F0E8"/>
+  <path
+    d="M16 9.5v7M16 16.5c0 5.6-8.4 5.6-8.4 11.5M16 16.5c0 5.6 8.4 5.6 8.4 11.5"
+    stroke="#F4F0E8"
+    stroke-width="5.5"
+    stroke-linecap="round"
+    fill="none"
+  />
+</svg>

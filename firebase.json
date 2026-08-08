@@ -1,0 +1,16 @@
+{
+  "auth": {
+    "providers": {
+      "emailPassword": true,
+      "googleSignIn": {
+        "oAuthBrandDisplayName": "PathWise",
+        "supportEmail": "amaaralisyed2011@gmail.com",
+        "authorizedRedirectUris": ["http://localhost", "https://path-wise0.firebaseapp.com"]
+      }
+    }
+  },
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  }
+}
