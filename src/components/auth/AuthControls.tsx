@@ -11,7 +11,7 @@ import {
 import { SignInDialog } from "@/components/auth/SignInDialog";
 import { useAuth } from "@/hooks/use-auth";
 
-export function AuthControls() {
+export function AuthControls({ disabled = false }: { disabled?: boolean } = {}) {
   const { user, loading, signOut } = useAuth();
   const [open, setOpen] = useState(false);
 
@@ -22,7 +22,13 @@ export function AuthControls() {
   if (!user) {
     return (
       <>
-        <button type="button" onClick={() => setOpen(true)} className="pw-float__cta">
+        <button
+          type="button"
+          onClick={() => setOpen(true)}
+          className="pw-float__cta"
+          tabIndex={disabled ? -1 : undefined}
+          disabled={disabled}
+        >
           Sign in
         </button>
         <SignInDialog open={open} onOpenChange={setOpen} />
@@ -41,7 +47,13 @@ export function AuthControls() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <button type="button" className="pw-float__account" aria-label="Account menu">
+        <button
+          type="button"
+          className="pw-float__account"
+          aria-label="Account menu"
+          tabIndex={disabled ? -1 : undefined}
+          disabled={disabled}
+        >
           <Avatar className="h-7 w-7">
             {user.photoURL ? <AvatarImage src={user.photoURL} alt="" /> : null}
             <AvatarFallback className="pw-float__avatar-fallback">{initials}</AvatarFallback>

@@ -1,7 +1,15 @@
 import { Link, useRouterState } from "@tanstack/react-router";
+import { Menu } from "lucide-react";
+import { useEffect, useState } from "react";
 import { AuthControls } from "@/components/auth/AuthControls";
 import { PathMark } from "@/components/site/PathMark";
 import { LEGAL, POLICY_LINKS } from "@/lib/legal-meta";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const NAV = [
   { to: "/decide", label: "Explore" },
@@ -9,11 +17,57 @@ const NAV = [
   { to: "/pro", label: "Plans" },
 ] as const;
 
-export function SiteNav() {
+type SiteNavProps = {
+  /** When set, hide the nav once this element scrolls fully past the top. */
+  hideAfterId?: string;
+};
+
+export function SiteNav({ hideAfterId }: SiteNavProps = {}) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    if (!hideAfterId) {
+      setVisible(true);
+      return;
+    }
+
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const section = document.getElementById(hideAfterId);
+      if (!section) {
+        setVisible(true);
+        return;
+      }
+
+      // How it works (tall sticky block) is the last nav screen.
+      // #demo sits right after it — hide the instant demo reaches the top.
+      const demo = document.getElementById("demo");
+      const edge = demo?.getBoundingClientRect().top ?? section.getBoundingClientRect().bottom;
+      setVisible(edge > 0);
+    };
+
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      if (frame) cancelAnimationFrame(frame);
+    };
+  }, [hideAfterId]);
 
   return (
-    <header className="pw-float">
+    <header
+      className="pw-float"
+      data-visible={visible ? "true" : "false"}
+      aria-hidden={visible ? undefined : true}
+    >
       <nav className="pw-float__inner" aria-label="Primary">
         <Link to="/" className="pw-float__brand">
           <PathMark className="pw-float__mark" />
@@ -21,7 +75,7 @@ export function SiteNav() {
         </Link>
 
         <div className="pw-float__end">
-          <ul className="pw-float__links">
+          <ul className="pw-float__links pw-float__links--desktop">
             {NAV.map((item) => {
               const active = pathname === item.to || pathname.startsWith(`${item.to}/`);
               return (
@@ -30,6 +84,7 @@ export function SiteNav() {
                     to={item.to}
                     className="pw-float__link"
                     data-active={active ? "true" : "false"}
+                    tabIndex={visible ? undefined : -1}
                   >
                     {item.label}
                   </Link>
@@ -37,7 +92,28 @@ export function SiteNav() {
               );
             })}
           </ul>
-          <AuthControls />
+
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button
+                type="button"
+                className="pw-float__menu"
+                aria-label="Open menu"
+                tabIndex={visible ? undefined : -1}
+              >
+                <Menu className="h-4 w-4" aria-hidden />
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-44">
+              {NAV.map((item) => (
+                <DropdownMenuItem key={item.to} asChild>
+                  <Link to={item.to}>{item.label}</Link>
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          <AuthControls disabled={!visible} />
         </div>
       </nav>
     </header>

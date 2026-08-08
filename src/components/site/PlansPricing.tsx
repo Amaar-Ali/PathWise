@@ -5,9 +5,11 @@ import { SignInDialog } from "@/components/auth/SignInDialog";
 import { useAuth } from "@/hooks/use-auth";
 import { usePlan } from "@/hooks/use-plan";
 import {
+  dismissPaddleOverlay,
   isPaddleConfigured,
   openPlanCheckout,
   setPaddleAccessRefreshHandler,
+  setPaddleCheckoutErrorHandler,
 } from "@/lib/paddle-client";
 import { planRank, type PlanId } from "@/lib/plan";
 import { cn } from "@/lib/utils";
@@ -134,12 +136,17 @@ function ownedLabel(current: PlanId, target: PlanId): string | null {
 
 export function PlansPricing() {
   const { user, loading: authLoading } = useAuth();
-  const { plan, loading: planLoading, refreshPlan } = usePlan();
+  const { plan, refreshPlan } = usePlan();
   const [signInOpen, setSignInOpen] = useState(false);
   const [pendingPlan, setPendingPlan] = useState<"pro" | "premium" | null>(null);
   const [busyPlan, setBusyPlan] = useState<"pro" | "premium" | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [status, setStatus] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Stuck failed-checkout iframes block the whole page.
+    dismissPaddleOverlay(null);
+  }, []);
 
   useEffect(() => {
     setPaddleAccessRefreshHandler(() => {
@@ -160,7 +167,11 @@ export function PlansPricing() {
       };
       void tick();
     });
-    return () => setPaddleAccessRefreshHandler(null);
+    setPaddleCheckoutErrorHandler((message) => setError(message));
+    return () => {
+      setPaddleAccessRefreshHandler(null);
+      setPaddleCheckoutErrorHandler(null);
+    };
   }, [refreshPlan]);
 
   useEffect(() => {
@@ -287,7 +298,7 @@ export function PlansPricing() {
                 ) : (
                   <button
                     type="button"
-                    disabled={buying || authLoading || planLoading}
+                    disabled={buying || Boolean(busyPlan) || authLoading}
                     onClick={() => void startCheckout(item.id as "pro" | "premium")}
                     className={cn(
                       "group inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-2.5 text-[14px] font-medium transition-transform duration-300 hover:-translate-y-0.5 disabled:opacity-50 disabled:hover:translate-y-0",

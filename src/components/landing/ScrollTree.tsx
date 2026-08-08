@@ -42,15 +42,15 @@ export function ScrollTree() {
   });
 
   return (
-    <section ref={sectionRef} className="relative h-[320vh]">
-      <div className="sticky top-0 flex h-screen items-center overflow-hidden">
-        <div className="mx-auto grid w-full max-w-6xl gap-10 px-5 md:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] md:items-center">
-          <div className="max-w-md">
+    <section id="how-it-works" ref={sectionRef} className="pw-scroll-tree relative">
+      <div className="pw-scroll-tree__sticky">
+        <div className="pw-scroll-tree__grid">
+          <div className="pw-scroll-tree__copy">
             <p className="rule-label">How it works</p>
-            <h2 className="mt-3 font-display text-[clamp(1.9rem,3.6vw,2.8rem)] leading-[1.08]">
+            <h2 className="mt-3 font-display text-[clamp(1.65rem,4vw,2.8rem)] leading-[1.1] text-balance-tight">
               A decision isn&apos;t a paragraph. It&apos;s a shape.
             </h2>
-            <div className="mt-6 space-y-4 text-[15px] leading-relaxed text-muted-foreground">
+            <div className="mt-5 space-y-3 text-[14.5px] leading-relaxed text-muted-foreground sm:mt-6 sm:space-y-4 sm:text-[15px]">
               <Step
                 active={trunk > 0.4}
                 text="You start with the thing you're actually deciding."
@@ -70,8 +70,8 @@ export function ScrollTree() {
             </div>
           </div>
 
-          <div className="relative">
-            <svg viewBox="0 0 520 460" className="w-full" aria-hidden>
+          <div className="pw-scroll-tree__visual" aria-hidden>
+            <svg viewBox="0 0 520 460" className="h-auto w-full max-h-[42vh] md:max-h-none">
               <g stroke="var(--border-strong)" strokeWidth="1.6" fill="none" strokeLinecap="round">
                 <path
                   d="M260 70 L260 150"
@@ -114,7 +114,7 @@ function Step({ active, text }: { active: boolean; text: string }) {
   return (
     <p
       className="flex gap-3 transition-all duration-500"
-      style={{ opacity: active ? 1 : 0.28, transform: active ? "none" : "translateY(4px)" }}
+      style={{ opacity: active ? 1 : 0.35, transform: active ? "none" : "translateY(4px)" }}
     >
       <span
         className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full transition-colors duration-500"

@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 
 const KEY = "pathwise.cookieNotice";
+const PAD_VAR = "--pw-cookie-pad";
 
 export function CookieNotice() {
   const [visible, setVisible] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     try {
@@ -14,6 +16,28 @@ export function CookieNotice() {
       setVisible(true);
     }
   }, []);
+
+  useEffect(() => {
+    if (!visible) {
+      document.documentElement.style.removeProperty(PAD_VAR);
+      return;
+    }
+
+    const el = ref.current;
+    if (!el) return;
+
+    const apply = () => {
+      document.documentElement.style.setProperty(PAD_VAR, `${el.offsetHeight}px`);
+    };
+    apply();
+
+    const ro = new ResizeObserver(apply);
+    ro.observe(el);
+    return () => {
+      ro.disconnect();
+      document.documentElement.style.removeProperty(PAD_VAR);
+    };
+  }, [visible]);
 
   if (!visible) return null;
 
@@ -28,6 +52,7 @@ export function CookieNotice() {
 
   return (
     <div
+      ref={ref}
       role="dialog"
       aria-label="Cookie and privacy notice"
       className="fixed inset-x-0 bottom-0 z-50 border-t border-border/80 bg-background/95 px-4 py-3.5 shadow-[0_-8px_30px_-18px_oklch(0.3_0.02_60_/_35%)] backdrop-blur-md"

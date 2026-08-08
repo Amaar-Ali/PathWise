@@ -26,7 +26,7 @@ export const Route = createFileRoute("/")({
 function Landing() {
   return (
     <div className="min-h-screen">
-      <SiteNav />
+      <SiteNav hideAfterId="how-it-works" />
       <main>
         <Hero />
         <ScrollTree />
@@ -170,36 +170,36 @@ function Hero() {
         <div className="hero-atmosphere__grain" />
         <div className="hero-atmosphere__vignette" />
       </div>
-      <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-1 flex-col items-center justify-center px-5 py-24 md:py-28">
-        <div className="mx-auto max-w-2xl text-center">
+      <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-1 flex-col items-center justify-center px-5 pb-16 pt-24 sm:pb-20 sm:pt-28 md:py-28">
+        <div className="mx-auto w-full max-w-2xl text-center">
           <p className="rule-label animate-rise">An interactive decision companion</p>
           <h1
-            className="animate-rise mt-5 font-display text-[clamp(2.4rem,5.4vw,4.1rem)] font-light leading-[1.02] text-balance-tight"
+            className="animate-rise mt-4 font-display text-[clamp(1.85rem,7vw,4.1rem)] font-light leading-[1.05] text-balance-tight sm:mt-5"
             style={{ animationDelay: "60ms" }}
           >
             Some decisions deserve more than an answer.
           </h1>
           <p
-            className="animate-rise mx-auto mt-6 max-w-xl text-[17px] leading-relaxed text-muted-foreground"
+            className="animate-rise mx-auto mt-5 max-w-xl text-[15px] leading-relaxed text-muted-foreground sm:mt-6 sm:text-[17px]"
             style={{ animationDelay: "140ms" }}
           >
             PathWise turns complicated decisions into paths you can explore — so you can see what
             each choice could lead to before you make it.
           </p>
           <div
-            className="animate-rise mt-9 flex flex-wrap items-center justify-center gap-3"
+            className="animate-rise mt-8 flex w-full flex-col items-stretch justify-center gap-3 sm:mt-9 sm:flex-row sm:flex-wrap sm:items-center"
             style={{ animationDelay: "220ms" }}
           >
             <Link
               to="/decide"
-              className="group inline-flex items-center gap-2 rounded-full bg-foreground px-5 py-2.5 text-[14px] font-medium text-background transition-transform duration-300 hover:-translate-y-0.5"
+              className="group inline-flex items-center justify-center gap-2 rounded-full bg-foreground px-5 py-3 text-[14px] font-medium text-background transition-transform duration-300 hover:-translate-y-0.5 sm:py-2.5"
             >
               Start a decision
               <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />
             </Link>
             <a
-              href="#demo"
-              className="rounded-full border border-border px-5 py-2.5 text-[14px] transition-colors hover:border-border-strong"
+              href="#how-it-works"
+              className="inline-flex items-center justify-center rounded-full border border-border px-5 py-3 text-[14px] transition-colors hover:border-border-strong sm:py-2.5"
             >
               See how it works
             </a>
@@ -216,14 +216,14 @@ function DemoSection() {
 
   return (
     <section id="demo" className="border-y border-border/70 bg-surface">
-      <div className="mx-auto max-w-6xl px-5 py-20">
-        <div className="flex flex-wrap items-end justify-between gap-4">
+      <div className="mx-auto max-w-6xl px-5 py-14 sm:py-20">
+        <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-end sm:justify-between">
           <div className="max-w-lg">
             <p className="rule-label">A real map, in miniature</p>
-            <h2 className="mt-3 font-display text-[clamp(1.7rem,3.2vw,2.4rem)] leading-tight">
+            <h2 className="mt-3 font-display text-[clamp(1.55rem,4.5vw,2.4rem)] leading-tight text-balance-tight">
               Drag it. Zoom it. Open a path.
             </h2>
-            <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground">
+            <p className="mt-3 text-[14.5px] leading-relaxed text-muted-foreground sm:text-[15px]">
               Zooming out shows the major paths. Zooming in reveals consequences, tradeoffs and the
               decisions waiting further down each route.
             </p>
@@ -236,8 +236,8 @@ function DemoSection() {
           </Link>
         </div>
 
-        <div className="mt-8 grid gap-4 lg:grid-cols-[minmax(0,1fr)_300px]">
-          <div className="surface-card h-[520px] overflow-hidden">
+        <div className="mt-6 grid gap-4 sm:mt-8 lg:grid-cols-[minmax(0,1fr)_300px]">
+          <div className="surface-card h-[min(58vh,420px)] overflow-hidden sm:h-[480px] lg:h-[520px]">
             <DecisionMap
               root={sampleDecision.root}
               selectedId={selected}
@@ -245,11 +245,13 @@ function DemoSection() {
               compact
             />
           </div>
-          <aside className="surface-card p-5">
+          <aside className="surface-card p-4 sm:p-5">
             {node ? (
               <div key={node.id} className="animate-rise">
                 <p className="rule-label">{node.kind}</p>
-                <h3 className="mt-2 font-display text-[19px] leading-snug">{node.label}</h3>
+                <h3 className="mt-2 font-display text-[18px] leading-snug sm:text-[19px]">
+                  {node.label}
+                </h3>
                 {node.summary && (
                   <p className="mt-2 text-[13.5px] leading-relaxed text-muted-foreground">
                     {node.summary}
@@ -267,7 +269,7 @@ function DemoSection() {
                 <p className="rule-label mb-2">Sample decision</p>
                 <p>{sampleDecision.question}</p>
                 <p className="mt-4">
-                  Click any node to inspect it. The map keeps its place while you read.
+                  Tap any node to inspect it. The map keeps its place while you read.
                 </p>
               </div>
             )}
@@ -294,12 +296,12 @@ function Different() {
     },
   ];
   return (
-    <section className="mx-auto max-w-6xl px-5 py-24">
-      <div className="grid gap-10 md:grid-cols-3">
+    <section className="mx-auto max-w-6xl px-5 py-16 sm:py-20 md:py-24">
+      <div className="grid gap-10 sm:grid-cols-2 md:grid-cols-3">
         {items.map((i) => (
           <div key={i.title}>
             <div className="mb-4 h-px w-10 bg-accent" />
-            <h3 className="font-display text-[20px] leading-snug">{i.title}</h3>
+            <h3 className="font-display text-[19px] leading-snug sm:text-[20px]">{i.title}</h3>
             <p className="mt-2 text-[14.5px] leading-relaxed text-muted-foreground">{i.body}</p>
           </div>
         ))}
@@ -311,13 +313,13 @@ function Different() {
 function StartBand() {
   return (
     <section className="border-t border-border/70 bg-foreground text-background">
-      <div className="mx-auto flex max-w-6xl flex-col gap-6 px-5 py-20 md:flex-row md:items-end md:justify-between">
-        <h2 className="max-w-xl font-display text-[clamp(1.8rem,3.6vw,2.7rem)] font-light leading-tight">
+      <div className="mx-auto flex max-w-6xl flex-col gap-6 px-5 py-14 sm:py-20 md:flex-row md:items-end md:justify-between">
+        <h2 className="max-w-xl font-display text-[clamp(1.6rem,5vw,2.7rem)] font-light leading-tight text-balance-tight">
           What are you trying to decide?
         </h2>
         <Link
           to="/decide"
-          className="inline-flex w-fit items-center gap-2 rounded-full bg-background px-5 py-2.5 text-[14px] font-medium text-foreground transition-transform duration-300 hover:-translate-y-0.5"
+          className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-background px-5 py-3 text-[14px] font-medium text-foreground transition-transform duration-300 hover:-translate-y-0.5 sm:w-fit sm:py-2.5"
         >
           Start a decision
           <ArrowRight className="h-4 w-4" />
