@@ -1,5 +1,10 @@
-import { loadEnv, type Plugin } from "vite";
-import { defineConfig } from "@lovable.dev/vite-tanstack-config";
+import path from "node:path";
+import tailwindcss from "@tailwindcss/vite";
+import { tanstackStart } from "@tanstack/react-start/plugin/vite";
+import viteReact from "@vitejs/plugin-react";
+import { nitro } from "nitro/vite";
+import { defineConfig, loadEnv, type Plugin } from "vite";
+import tsconfigPaths from "vite-tsconfig-paths";
 
 function serverEnvFromDotenv(): Plugin {
   const apply = (mode: string) => {
@@ -10,6 +15,7 @@ function serverEnvFromDotenv(): Plugin {
       if (process.env[key] === undefined) process.env[key] = value;
     }
   };
+
   return {
     name: "pathwise-server-env",
     enforce: "pre",
@@ -23,10 +29,49 @@ function serverEnvFromDotenv(): Plugin {
 }
 
 export default defineConfig({
-  tanstackStart: {
-    server: { entry: "server" },
+  resolve: {
+    alias: {
+      "@": path.resolve(process.cwd(), "src"),
+    },
+    dedupe: [
+      "react",
+      "react-dom",
+      "react/jsx-runtime",
+      "react/jsx-dev-runtime",
+      "@tanstack/react-query",
+      "@tanstack/query-core",
+    ],
   },
-  vite: {
-    plugins: [serverEnvFromDotenv()],
+  server: {
+    host: true,
+    port: 8080,
   },
+  optimizeDeps: {
+    include: [
+      "react",
+      "react-dom",
+      "react-dom/client",
+      "react/jsx-runtime",
+      "react/jsx-dev-runtime",
+    ],
+  },
+  plugins: [
+    serverEnvFromDotenv(),
+    tailwindcss(),
+    tsconfigPaths({ projects: ["./tsconfig.json"] }),
+    tanstackStart({
+      server: { entry: "server" },
+      importProtection: {
+        behavior: "error",
+        client: {
+          files: ["**/server/**"],
+          specifiers: ["server-only"],
+        },
+      },
+    }),
+    nitro({
+      defaultPreset: "cloudflare-module",
+    }),
+    viteReact(),
+  ],
 });
