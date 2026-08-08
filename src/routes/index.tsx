@@ -7,7 +7,7 @@ import { DecisionMap } from "@/components/map/DecisionMap";
 import { sampleDecision } from "@/lib/sample-decision";
 import { findNode } from "@/lib/decision-model";
 
-const TITLE = "PathWise — see where each choice could lead";
+const TITLE = "PathWise";
 const DESC =
   "PathWise turns complicated decisions into paths you can explore — an interactive map of options, consequences and outcomes, before you commit.";
 
