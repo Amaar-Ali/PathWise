@@ -69,9 +69,8 @@ export default defineConfig({
         },
       },
     }),
-    nitro({
-      defaultPreset: "cloudflare-module",
-    }),
+    // Host detects preset (Vercel → vercel, local/CI can override).
+    nitro(),
     viteReact(),
   ],
 });
