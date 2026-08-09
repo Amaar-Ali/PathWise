@@ -21,6 +21,28 @@
 
 ---
 
+## Preview
+
+<p align="center">
+  <img src="docs/screenshots/landing.png" alt="PathWise landing page" width="900" />
+</p>
+
+<p align="center"><em>Landing — start a decision or see how the map works</em></p>
+
+<p align="center">
+  <img src="docs/screenshots/decision-map.png" alt="PathWise decision map on desktop" width="900" />
+</p>
+
+<p align="center"><em>Desktop map — paths, What-if, and insights side by side</em></p>
+
+<p align="center">
+  <img src="docs/screenshots/decision-map-mobile.png" alt="PathWise decision map on mobile" width="320" />
+</p>
+
+<p align="center"><em>Mobile map — full-bleed canvas with bottom panel tabs</em></p>
+
+---
+
 ## What is PathWise?
 
 Most AI tools answer decisions with a wall of text. PathWise does something different:
