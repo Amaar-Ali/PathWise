@@ -43,7 +43,57 @@ function Pro() {
           it stops. Pro and Premium are one-time purchases — not subscriptions.
         </p>
 
+        <ul
+          className="animate-rise mt-8 grid max-w-3xl gap-3 text-[14px] leading-relaxed text-muted-foreground sm:grid-cols-3"
+          style={{ animationDelay: "150ms" }}
+        >
+          <li>
+            <span className="font-medium text-foreground">Free</span> — try real maps with
+            guest/account limits.
+          </li>
+          <li>
+            <span className="font-medium text-foreground">Pro · $4</span> — more maps, wider trees,
+            full history.
+          </li>
+          <li>
+            <span className="font-medium text-foreground">Premium · $10</span> — unlimited depth,
+            priority email support.
+          </li>
+        </ul>
+
         <PlansPricing />
+
+        <section
+          className="animate-rise mt-16 border-t border-border/70 pt-12"
+          style={{ animationDelay: "220ms" }}
+        >
+          <p className="rule-label">Who this is for</p>
+          <h2 className="mt-2 max-w-xl font-display text-[clamp(1.35rem,2.4vw,1.7rem)] leading-tight">
+            People weighing forks that matter — jobs, moves, money, commitments.
+          </h2>
+          <p className="mt-3 max-w-2xl text-[14.5px] leading-relaxed text-muted-foreground">
+            PathWise solves foggy high-stakes choices by mapping options, consequences, and
+            tradeoffs before you commit. Not a quiz. Not a prediction engine. Start free; upgrade
+            once when you need more depth or monthly maps.
+          </p>
+          <ol className="mt-6 max-w-xl space-y-2 text-[14px] leading-relaxed text-muted-foreground">
+            <li>
+              <strong className="font-medium text-foreground">1.</strong>{" "}
+              <Link to="/decide" className="text-accent underline-offset-4 hover:underline">
+                Start a decision
+              </Link>{" "}
+              — name the question.
+            </li>
+            <li>
+              <strong className="font-medium text-foreground">2.</strong> Answer the short context
+              flow.
+            </li>
+            <li>
+              <strong className="font-medium text-foreground">3.</strong> Explore the map; buy Pro or
+              Premium only if you hit Free limits or want more depth.
+            </li>
+          </ol>
+        </section>
 
         <div
           className="animate-rise mt-12 rounded-xl border border-border bg-surface/60 p-6 md:p-7"
@@ -58,7 +108,11 @@ function Pro() {
           </p>
           <p className="mt-2 max-w-xl text-[14px] leading-relaxed text-muted-foreground">
             Access unlocks after Paddle confirms payment (server webhook). Cancelled or failed
-            checkouts grant nothing. Ownership sticks across logout/login.
+            checkouts grant nothing. Ownership sticks across logout/login. Support is email — see{" "}
+            <Link to="/contact" className="text-accent underline-offset-4 hover:underline">
+              Contact &amp; support
+            </Link>{" "}
+            for channels and response times.
           </p>
           <Link
             to="/decide"

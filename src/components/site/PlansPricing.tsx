@@ -126,6 +126,12 @@ const compareRows: { feature: string; free: string; pro: string; premium: string
     pro: "One-time",
     premium: "One-time",
   },
+  {
+    feature: "Support",
+    free: "Email · a few business days",
+    pro: "Email · a few business days",
+    premium: "Priority email support",
+  },
 ];
 
 function ownedLabel(current: PlanId, target: PlanId): string | null {

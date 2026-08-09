@@ -126,6 +126,7 @@ const FOOTER_PRODUCT = [
   { to: "/decide", label: "Explore" },
   { to: "/decisions", label: "My Decisions" },
   { to: "/pro", label: "Plans" },
+  { to: "/contact", label: "Support" },
 ] as const;
 
 export function SiteFooter() {

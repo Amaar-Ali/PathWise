@@ -9,7 +9,7 @@ import { findNode } from "@/lib/decision-model";
 
 const TITLE = "PathWise";
 const DESC =
-  "PathWise turns complicated decisions into paths you can explore — an interactive map of options, consequences and outcomes, before you commit.";
+  "Interactive decision maps for consequential choices — jobs, moves, money, commitments. Free to start; Pro $4 and Premium $10 one-time. Email support.";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -31,6 +31,9 @@ function Landing() {
         <Hero />
         <ScrollTree />
         <DemoSection />
+        <WhoFor />
+        <Benefits />
+        <GetStarted />
         <Different />
         <StartBand />
       </main>
@@ -275,6 +278,185 @@ function DemoSection() {
             )}
           </aside>
         </div>
+      </div>
+    </section>
+  );
+}
+
+function WhoFor() {
+  return (
+    <section id="who-for" className="border-b border-border/70">
+      <div className="mx-auto max-w-6xl px-5 py-16 sm:py-20">
+        <p className="rule-label">Who it&apos;s for</p>
+        <h2 className="mt-3 max-w-2xl font-display text-[clamp(1.55rem,4.5vw,2.4rem)] leading-tight text-balance-tight">
+          For consequential decisions — not quizzes, not predictions.
+        </h2>
+        <p className="mt-4 max-w-2xl text-[14.5px] leading-relaxed text-muted-foreground sm:text-[15px]">
+          The problem: big choices arrive as a fog of options, second-order effects, and tradeoffs.
+          Spreadsheets and chat dump text. PathWise turns the decision into an interactive map you
+          can explore before you commit.
+        </p>
+        <div className="mt-8 grid gap-8 md:grid-cols-2">
+          <div>
+            <p className="text-[13px] font-medium tracking-wide text-foreground">Built for people facing</p>
+            <ul className="mt-3 space-y-2 text-[14px] leading-relaxed text-muted-foreground">
+              <li>Job offers, stays, or career switches</li>
+              <li>Move cities, buy vs rent, school choices</li>
+              <li>Side projects, commitments, and time tradeoffs</li>
+              <li>Any fork where seeing paths matters more than a single answer</li>
+            </ul>
+          </div>
+          <div>
+            <p className="text-[13px] font-medium tracking-wide text-foreground">Pricing, plainly</p>
+            <ul className="mt-3 space-y-2 text-[14px] leading-relaxed text-muted-foreground">
+              <li>
+                <strong className="font-medium text-foreground">Free / guest</strong> — start mapping
+                with daily/monthly limits
+              </li>
+              <li>
+                <strong className="font-medium text-foreground">Pro · $4</strong> one-time (≈ ₹249) —
+                more maps, wider trees
+              </li>
+              <li>
+                <strong className="font-medium text-foreground">Premium · $10</strong> one-time (≈ ₹800)
+                — unlimited depth and maps
+              </li>
+              <li>Not a subscription. Full breakdown on Plans.</li>
+            </ul>
+            <Link
+              to="/pro"
+              className="mt-4 inline-block text-[13.5px] text-accent underline-offset-4 hover:underline"
+            >
+              See Free vs Pro vs Premium →
+            </Link>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Benefits() {
+  const top = [
+    {
+      title: "See the shape of the decision",
+      body: "Paths, consequences, further decisions, and outcomes — in a map you can drag and zoom.",
+    },
+    {
+      title: "Depth when you need it",
+      body: "Start with the real forks. Go deeper only where curiosity (or stakes) pull you.",
+    },
+    {
+      title: "Stay in charge",
+      body: "Honest lean + what it's least sure about. Not a coach. Not a crystal ball.",
+    },
+  ];
+  return (
+    <section id="benefits" className="bg-surface">
+      <div className="mx-auto max-w-6xl px-5 py-16 sm:py-20">
+        <p className="rule-label">Benefits</p>
+        <h2 className="mt-3 max-w-xl font-display text-[clamp(1.55rem,4.5vw,2.4rem)] leading-tight text-balance-tight">
+          Why people use PathWise
+        </h2>
+        <div className="mt-8 grid gap-8 sm:grid-cols-3">
+          {top.map((item) => (
+            <div key={item.title}>
+              <div className="mb-4 h-px w-10 bg-accent" />
+              <h3 className="font-display text-[18px] leading-snug sm:text-[19px]">{item.title}</h3>
+              <p className="mt-2 text-[14px] leading-relaxed text-muted-foreground">{item.body}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-12 grid gap-6 border-t border-border/70 pt-10 md:grid-cols-2">
+          <div>
+            <p className="rule-label">Free</p>
+            <p className="mt-2 font-display text-[20px] leading-snug">Start without paying</p>
+            <ul className="mt-3 space-y-1.5 text-[13.5px] leading-relaxed text-muted-foreground">
+              <li>Guest: 1 medium-detail map per day, no signup</li>
+              <li>Free account: 1 high-detail + 2 medium maps / month</li>
+              <li>Insights, timeline, in-map compare, What-If on the map you just built</li>
+            </ul>
+          </div>
+          <div>
+            <p className="rule-label">Paid · one-time</p>
+            <p className="mt-2 font-display text-[20px] leading-snug">Pay for depth, not volume</p>
+            <ul className="mt-3 space-y-1.5 text-[13.5px] leading-relaxed text-muted-foreground">
+              <li>
+                <strong className="font-medium text-foreground">Pro ($4)</strong> — 10 high / 25
+                medium maps per month, wider trees, full history
+              </li>
+              <li>
+                <strong className="font-medium text-foreground">Premium ($10)</strong> — unlimited
+                maps &amp; depth, cross-map compare, priority email support
+              </li>
+            </ul>
+            <Link
+              to="/pro"
+              className="mt-4 inline-block text-[13.5px] text-accent underline-offset-4 hover:underline"
+            >
+              Compare plans →
+            </Link>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function GetStarted() {
+  const steps = [
+    {
+      n: "1",
+      title: "Name the decision",
+      body: "Open Explore and state the real question — job, move, buy vs rent, or something else.",
+    },
+    {
+      n: "2",
+      title: "Answer a short context flow",
+      body: "A few focused questions so the map reflects paths that are actually available to you.",
+    },
+    {
+      n: "3",
+      title: "Explore the map",
+      body: "Drag, zoom, open nodes, use What-If and compare views. Save if you're signed in.",
+    },
+  ];
+  return (
+    <section id="get-started" className="border-b border-border/70">
+      <div className="mx-auto max-w-6xl px-5 py-16 sm:py-20">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <div className="max-w-lg">
+            <p className="rule-label">Get started</p>
+            <h2 className="mt-3 font-display text-[clamp(1.55rem,4.5vw,2.4rem)] leading-tight text-balance-tight">
+              Three steps to your first map
+            </h2>
+          </div>
+          <Link
+            to="/decide"
+            className="text-[13.5px] text-accent underline-offset-4 hover:underline"
+          >
+            Start a decision →
+          </Link>
+        </div>
+        <ol className="mt-8 grid gap-8 sm:grid-cols-3">
+          {steps.map((step) => (
+            <li key={step.n}>
+              <p className="font-display text-[28px] font-light leading-none text-accent/80">
+                {step.n}
+              </p>
+              <h3 className="mt-3 font-display text-[18px] leading-snug">{step.title}</h3>
+              <p className="mt-2 text-[14px] leading-relaxed text-muted-foreground">{step.body}</p>
+            </li>
+          ))}
+        </ol>
+        <p className="mt-8 max-w-xl text-[13.5px] leading-relaxed text-muted-foreground">
+          Stuck later?{" "}
+          <Link to="/contact" className="text-accent underline-offset-4 hover:underline">
+            Contact &amp; support
+          </Link>{" "}
+          lists email help, response times, and self-service links. No phone or live chat.
+        </p>
       </div>
     </section>
   );
