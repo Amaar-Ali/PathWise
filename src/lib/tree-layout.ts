@@ -22,15 +22,34 @@ export interface LayoutResult {
   bounds: { minX: number; maxX: number; minY: number; maxY: number };
 }
 
+export interface LayoutOptions {
+  nodeW?: number;
+  nodeH?: number;
+  hGap?: number;
+  vGap?: number;
+}
+
 const H_GAP = 44;
 const V_GAP = 220;
 export const NODE_W = 224;
 export const NODE_H = 64;
 
+/** Mobile-only denser cards — desktop keeps NODE_W / NODE_H. */
+export const MOBILE_NODE_W = 168;
+export const MOBILE_NODE_H = 58;
+export const MOBILE_H_GAP = 28;
+export const MOBILE_V_GAP = 168;
+
 export function layoutTree(
   root: DecisionNode,
   isOpen: (n: DecisionNode, depth: number) => boolean,
+  opts: LayoutOptions = {},
 ): LayoutResult {
+  const nodeW = opts.nodeW ?? NODE_W;
+  const nodeH = opts.nodeH ?? NODE_H;
+  const hGap = opts.hGap ?? H_GAP;
+  const vGap = opts.vGap ?? V_GAP;
+
   const nodes: LaidOutNode[] = [];
   const edges: Edge[] = [];
   let cursor = 0;
@@ -43,7 +62,7 @@ export function layoutTree(
       id: node.id,
       depth,
       x: 0,
-      y: depth * V_GAP,
+      y: depth * vGap,
       parentId: parent?.id,
       hasHiddenChildren: kids.length > 0 && !open,
     };
@@ -54,7 +73,7 @@ export function layoutTree(
       children.forEach((c) => edges.push({ id: `${node.id}->${c.id}`, from: laid, to: c }));
     } else {
       laid.x = cursor;
-      cursor += NODE_W + H_GAP;
+      cursor += nodeW + hGap;
     }
     nodes.push(laid);
     return laid;
@@ -68,19 +87,23 @@ export function layoutTree(
     nodes,
     edges,
     bounds: {
-      minX: Math.min(...xs) - NODE_W,
-      maxX: Math.max(...xs) + NODE_W,
-      minY: Math.min(...ys) - NODE_H,
-      maxY: Math.max(...ys) + NODE_H * 2,
+      minX: Math.min(...xs) - nodeW,
+      maxX: Math.max(...xs) + nodeW,
+      minY: Math.min(...ys) - nodeH,
+      maxY: Math.max(...ys) + nodeH * 2,
     },
   };
 }
 
-export function edgePath(from: LaidOutNode, to: LaidOutNode) {
+export function edgePath(
+  from: LaidOutNode,
+  to: LaidOutNode,
+  nodeH: number = NODE_H,
+) {
   const x1 = from.x;
-  const y1 = from.y + NODE_H / 2;
+  const y1 = from.y + nodeH / 2;
   const x2 = to.x;
-  const y2 = to.y - NODE_H / 2;
+  const y2 = to.y - nodeH / 2;
   const my = (y1 + y2) / 2;
   return `M ${x1} ${y1} C ${x1} ${my}, ${x2} ${my}, ${x2} ${y2}`;
 }

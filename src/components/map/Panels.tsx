@@ -311,23 +311,37 @@ export function WhatIfPanel({
   doc,
   active,
   onToggle,
+  compact = false,
+  hideLabel = false,
 }: {
   doc: DecisionDoc;
   active: string[];
   onToggle: (id: string) => void;
+  /** Tighter chip row for mobile map chrome. Desktop callers leave false. */
+  compact?: boolean;
+  /** When parent already renders the “What if…” label (e.g. with a close control). */
+  hideLabel?: boolean;
 }) {
   if (!doc.assumptions?.length) return null;
   return (
-    <div className="space-y-2.5">
-      <p className="rule-label">What if…</p>
-      <div className="flex flex-wrap gap-1.5">
+    <div className={cn(compact ? "space-y-1.5" : hideLabel ? "" : "space-y-2.5")}>
+      {!hideLabel && <p className="rule-label">What if…</p>}
+      <div
+        className={cn(
+          "flex gap-1.5",
+          compact ? "flex-nowrap overflow-x-auto pb-0.5 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" : "flex-wrap",
+        )}
+      >
         {doc.assumptions.map((a) => (
           <button
             key={a.id}
             title={a.hint}
             onClick={() => onToggle(a.id)}
             className={cn(
-              "rounded-full border px-3 py-1 text-[12px] transition-all duration-300",
+              "rounded-full border transition-all duration-300",
+              compact
+                ? "shrink-0 px-2.5 py-1 text-[11.5px]"
+                : "px-3 py-1 text-[12px]",
               active.includes(a.id)
                 ? "border-accent bg-accent text-accent-foreground"
                 : "border-border bg-card hover:border-border-strong",
